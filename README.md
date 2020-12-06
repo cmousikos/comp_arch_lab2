@@ -60,27 +60,44 @@ Tο associativity κάθε μίας από αυτές:
           * L2 cache : **0.999972**
 
 -----------------------------------------------------------------------------------
-                                              Χρόνος εκτέλεσης  
+                                        Χρόνος εκτέλεσης  
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/Times.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/Times.png)
 
-                                        CPI (Cycles per instruction) 
+                                  CPI (Cycles per instruction) 
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/CPI.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/CPI.png)
 
-                                        L1 instruction cache miss rate
+                                L1 instruction cache miss rate
 
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_instructions.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_instructions.png)
 
-                                         L1 data cache miss rate
+                                   L1 data cache miss rate
 
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_Data.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_Data.png)
 
-                                              L2 cache miss rate
+                                        L2 cache miss rate
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L2_Cache.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L2_Cache.png)
 
 --------------------------------------------
 
 Από τα γραφήματα παρατηρούμε ότι το **specsjeng** είναι το πιο *αργό* benchmark και έχει και τα  
 μεγαλύτερα cache miss rates στις L2,L1 data, ενώ το μικρότερο σε L1 instruction. Ωστόσο το μεγαλύτερο  L1 instruction miss rate παρατηρείται στο **specmcf**. Επιπλέον μπορούμε να συμπαιράνουμε ότι όσο  μεγαλύτερο χρόνο εκτέλεσης έχει το benchmark, ανάλογα είναι και τα CPI,L1 Data και L2 cache miss rates, ενώ το L1 instruction miss rate είναι ανεξάρτητο.
+
+##### Ερώτημα 3ο
+
+Από τα αρχεία stats.txt των benchmarks παρατηρούμε ότι το system_clock παραμένει στο _**1GHz**_, ενώ το cpu_clock είναι αυτό που αλλάζει. Από το αρχείο config.json προκύπτει ο ίδιο συμπέρασμα, και αυτό συμβαίνει διότι αυτό που μας ενδιαφέρει να ρυθμίσουμε είναι το cpu_clock καθώς εκεί εκτελούντε τα instructions και γενικότερα το πρόγραμμα. Αν προσθέσουμε έναν ακόμα επεξεργαστή η συχνότητα του θα είναι _**2GHz**_.
+
+Οι χρόνοι εκτέλεσης φαίνονται στον παρακάτω πίνακα :
+
+| benchmarks          | 1GHz | 2GHz |
+|-----------|------|------|
+| specbzip  |  0.1604    |  0.0837 |
+| spechmmer |   0.1185   |  0.0593 |
+| speclibm  |   0.2622   |  0.1747 |
+| spemcf    |   0.1278  |  0.0649 |
+| specsjeng |   0.7054   |  0.5138 |
+
+Παρατηρούμε ότι στα **specbzip, spechmmer, spemcf** είναι σχεδόν 2 φορές πιο γρήγορο όταν 2πλασιάζουμε την συχνότητα. Ωστόσο στα **speclibm, specsjeng,** η αναλογία δεν είναι η ίδια. Επίσης σε αυτά τα δύο παρατηρούμε τα μεγαλύτερα L1 Data, L2 cache miss rates. Οπότε παρατηρούμε ότι το μεγάλο miss rate στις caches επηρεάζει και επιβραδύνει πολύ το πρόγραμμα, ανεξαρτήτως αν αυξήσουμε την συχνότητα, το όφελος είναι μικρό.
+
 
 
 
