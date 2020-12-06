@@ -60,21 +60,21 @@ Tο associativity κάθε μίας από αυτές:
           * L2 cache : **0.999972**
 
 -----------------------------------------------------------------------------------
-                                        Χρόνος εκτέλεσης  
+                                              Χρόνος εκτέλεσης  
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/Times.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/Times.png)
 
-                                  CPI (Cycles per instruction) 
+                                        CPI (Cycles per instruction) 
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/CPI.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/CPI.png)
 
-                                L1 instruction cache miss rate
+                                        L1 instruction cache miss rate
 
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_instructions.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_instructions.png)
 
-                                   L1 data cache miss rate
+                                         L1 data cache miss rate
 
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_Data.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_Data.png)
 
-                                        L2 cache miss rate
+                                              L2 cache miss rate
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L2_Cache.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L2_Cache.png)
 
 --------------------------------------------
