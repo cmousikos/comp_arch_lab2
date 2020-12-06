@@ -58,3 +58,30 @@ Tο associativity κάθε μίας από αυτές:
           * L1 instruction : **0.000020**
           * L1 Data : **0.121831**
           * L2 cache : **0.999972**
+
+-----------------------------------------------------------------------------------
+                                        Χρόνος εκτέλεσης  
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/Times.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/Times.png)
+
+                                  CPI (Cycles per instruction) 
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/CPI.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/CPI.png)
+
+                                L1 instruction cache miss rate
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_instructions.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_instructions.png)
+
+                                   L1 data cache miss rate
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_Data.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L1_Data.png)
+
+                                        L2 cache miss rate
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L2_Cache.png)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Graphs/L2_Cache.png)
+
+--------------------------------------------
+
+Από τα γραφήματα παρατηρούμε ότι το **specsjeng** είναι το πιο *αργό* benchmark και έχει και τα  
+μεγαλύτερα cache miss rates στις L2,L1 data, ενώ το μικρότερο σε L1 instruction. Ωστόσο το μεγαλύτερο  L1 instruction miss rate παρατηρείται στο **specmcf**. Επιπλέον μπορούμε να συμπαιράνουμε ότι όσο  μεγαλύτερο χρόνο εκτέλεσης έχει το benchmark, ανάλογα είναι και τα CPI,L1 Data και L2 cache miss rates, ενώ το L1 instruction miss rate είναι ανεξάρτητο.
+
+
+
+
