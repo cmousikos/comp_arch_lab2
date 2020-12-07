@@ -96,7 +96,140 @@ Tο associativity κάθε μίας από αυτές:
 | spemcf    |   0.1278  |  0.0649 |
 | specsjeng |   0.7054   |  0.5138 |
 
-Παρατηρούμε ότι στα **specbzip, spechmmer, spemcf** είναι σχεδόν 2 φορές πιο γρήγορο όταν 2πλασιάζουμε την συχνότητα. Ωστόσο στα **speclibm, specsjeng,** η αναλογία δεν είναι η ίδια. Επίσης σε αυτά τα δύο παρατηρούμε τα μεγαλύτερα L1 Data, L2 cache miss rates. Οπότε παρατηρούμε ότι το μεγάλο miss rate στις caches επηρεάζει και επιβραδύνει πολύ το πρόγραμμα, ανεξαρτήτως αν αυξήσουμε την συχνότητα, το όφελος είναι μικρό.
+Παρατηρούμε ότι στα **specbzip, spechmmer, spemcf** είναι σχεδόν 2 φορές πιο γρήγορο όταν 2πλασιάζουμε την συχνότητα. Ωστόσο στα **speclibm, specsjeng,** η αναλογία δεν είναι η ίδια. Επίσης σε αυτά τα δύο παρατηρούμε τα μεγαλύτερα L1 Data, L2 cache miss rates. Οπότε παρατηρούμε ότι το μεγάλο miss rate στις caches επηρεάζει και επιβραδύνει πολύ το πρόγραμμα, το οποίο είναι φυσιολογικό καθώς ο επεξεργαστής πρέπει να ανατρέξει αλλού να βρει αυτό που ψάχνει (από L1 -> L2 , και από L2 -> κύρια μνήμη), ανεξαρτήτως δηλαδή αν αυξήσουμε την συχνότητα, το όφελος είναι μικρό.
+
+
+##  Βήμα 2ο
+
+Σε αυτό το βήμα τροποποιούμε τις παραμέτρους των επεξεργαστών ώστε να μειώσουμε όσο γίνεται τους χρόνους εκτέλεσης και τα CPI των benchmarks. Για τη δημιουργία των γραφημάτων δημιουργήθηκε ένα [script](https://github.com/cmousikos/comp_arch_lab2/blob/main/results.m) στo matlab.
+
+Πιο συγκεκριμένα για το benchmark specbzip, δημιουργούμε τους παρακάτω συνδυασμούς παραμέτρων, όπου ο κάθε αριθμός αντιπροσωπεύει και έναν διαφορετικό συνδυασμό με τον αριθμό 1 να είναι τα αποτελέσματα από τις εκτελέσεις του προηγούμενου βήματος. Για τις εκτελέσεις των διαφορετικών commands δημιουργήθηκε ένα _**[bash script](https://github.com/cmousikos/comp_arch_lab2/blob/main/bash_scripts/myscript.sh)**_ :
+
+* **2 -> l1_assoc=1 , l2_assoc=2, cacheline=64 ,l1i_size=64 ,l1d_size=32 , l2_size=512**
+* **3-> l1_assoc=8 , l2_assoc=16, cacheline=64 ,l1i_size=64 ,l1d_size=32 , l2_size=512**
+* **4 -> l1_assoc=64 , l2_assoc=64, cacheline=64 ,l1i_size=64 ,l1d_size=32 , l2_size=512**
+* **5 -> l1_assoc=2 , l2_assoc=8, cacheline=32 ,l1i_size=64 ,l1d_size=32 , l2_size=512**
+* **6 -> l1_assoc=4 , l2_assoc=16, cacheline=64 ,l1i_size=32 ,l1d_size=64 , l2_size=1MB**
+* **7 -> l1_assoc=4 , l2_assoc=16, cacheline=64 ,l1i_size=128 ,l1d_size=32 , l2_size=4MB**
+* **8 -> l1_assoc=8 , l2_assoc=16, cacheline=32 ,l1i_size=64 ,l1d_size=32 , l2_size=1MB**
+
+_Στις l1d cache & l1i cache χρησιμοποιούμε την ίδια τιμή στο associetivity, και --cpu-clock=2GHz (default)._
+
+Παρακάτω προκύπτουν τα ακόλουθα γραφήματα :
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/time.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/time.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/cpi.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/cpi.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/dcache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/dcache.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/icache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/icache.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/l2cache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/l2cache.jpg)
+
+-------------
+Παρατηρούμε ότι στον συνδυασμό _**7**_ έχουμε κάπως καλύτερα αποτελέσματα, αυξάνοντας λίγο το associativity, αλλά και το μέγεθος των l1i=128 ,l1d=32 , και l2=4ΜΒ. Επιπλέον μπορούμε να συμπαιράνουμε οτί μειώνοντας το cacheline είτε με μικρό (**5**), είτε με μεγάλο (**8**) assosiciativity τα cache misses αυξάνοντε και μαζί τους το CPI και χρόνος εκτέλεσης.
+Στον συνδυασμό 4 όπου έχουμε full associativity, παρατηρούμε μικρή επιβράνδυση. 
+_Στο συγκεκριμένο benchmark οι συνδυασμοί επιλέχθηκαν τυχαία._
+
+------------
+
+Για το benchmark speclibm ακολουθήθηκε άλλη στρατηγική, αλλάζοντας κάθε φορά από μία ή δύο παραμέτρους και αφήνοντας τις υπόλοιπες στις by default τιμές τους, ο αριθμός **1** αντιστοιχεί στα αποτελέσματα από το βήμα 1. Για τις εκτελέσεις των διαφορετικών commands δημιουργήθηκε ένα _**[bash script](https://github.com/cmousikos/comp_arch_lab2/blob/main/bash_scripts/myscript_speclibm.sh)**_
+
+* **2 -> l1_assoc=32, l2_assoc=64**
+* **3 -> cacheline_size=32**
+* **4 -> l1_size = 192 , l2=2MB**
+* **5 -> l1_size = 256 , l2=1MB**
+* **6 -> l1_assoc=32, l2_assoc=64,  cacheline_size=32**
+* **7 -> l1_assoc=16 , l2_assoc=32 , l2 4MB, l1i,d=192**
+
+Παρακάτω προκύπτουν τα εξής γραφήματα :
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/libm_parameters/sim_seconds.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/libm_parameters/sim_seconds.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/libm_parameters/cpi.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/libm_parameters/cpi.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/libm_parameters/dcache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/libm_parameters/dcache.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/libm_parameters/icache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/libm_parameters/icache.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/libm_parameters/l2cache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/bzip2_parameters/l2cache.jpg)
+
+Ακολουθώντας την στρατηγική τροποποίησης παραμέτρων που αναφέραμε παραπάνω προκύπτει ότι δε καταφέραμε να μειώσουμε τον χρόνο εκτέλεσης και το CPI. Παρ'όλο αυτά μπορούμε να διακρίνουμε ότι στις περιπτώσεις **3** και **6** έχουμε αρκετή επιβράνδυση και αυτό οφείλεται στο ότι και στις δύο περιπτώσεις έχουμε αλλάξει τo cacheline_size σε 32. To L2 cache παραμένει υψηλό σε όλα.
+
+------------------------
+Στο benchmark specsjeng γίνονται οι παρακάτω τροποποιήσεις :
+
+* **2 -> l1_assoc=32, l2_assoc=64**
+* **3 -> cacheline_size=32**
+* **4 -> l1_size = 192 , l2=2MB**
+* **5 -> l1_size = 256 , l2=1MB**
+* **6 -> l1_assoc=32, l2_assoc=64, cacheline_size=32**
+* **7 -> assoc=16,32 , l2 = 4MB, l1i,d=192**
+* **8 -> l1d_size = 64 , l1i_size =128, l2_size = 4MB , assoc=4,16**
+* **9 -> l1d_size = 32 , l1i_size =64, l2_size = 2MB , assoc=64,64**
+* **10 -> l1d_size = 32 , l1i_size =64, l2_size = 4MB , assoc=1,2**
+* **10 -> l1d_size = 128 , l1i_size =128, l2_size = 4MB , assoc=128,256**
+
+Για τις εκτελέσεις των διαφορετικών commands δημιουργήθηκε ένα _**[bash script](https://github.com/cmousikos/comp_arch_lab2/blob/main/bash_scripts/myscript_specsjeng.sh)**_
+
+Παρακάτω πρκύπτουν τα εξής γραφήματα :
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Sjeng_parameters/sim_seconds.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/sjeng_parameters/sim_seconds.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Sjeng_parameters/cpi.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/sjeng_parameters/cpi.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Sjeng_parameters/dcache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/sjeng_parameters/dcache.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Sjeng_parameters/icache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/sjeng_parameters/icache.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Sjeng_parameters/l2cache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/sjeng_parameters/l2cache.jpg)
+
+
+
+## Bήμα 3ο
+
+Από μελέτη σχετικής βιβλιογραφίας [εδώ](https://www.extremetech.com/extreme/188776-how-l1-and-l2-cpu-caches-work-and-why-theyre-an-essential-part-of-modern-chips) , [εδώ](https://www.csd.uoc.gr/~hy425/2016f/lectures/Lec12_caches_performance.pdf) & [εδώ](https://www.researchgate.net/figure/CPI-of-different-benchmarks-as-I-Cache-size-increases_fig2_271434508), και από τις δοκιμές που κάναμε παραπάνω προκύπτουν κάποια συμπεράσματα σχετικά με το πως επηρεάζουν οι παράμετροι της cpu την ταχύτητα και αποτελεσματικότητα της. 
+
+[![N|Solid](https://www.extremetech.com/wp-content/uploads/2014/08/Cache-HitRate1.png)](https://www.extremetech.com/wp-content/uploads/2014/08/Cache-HitRate1.png)
+
+* Όπως φαίνεται και στο γράφημα, αλλά και αναφέρεται στην παραπάνω βιβλιογραφία, η αύξηση του μεγέθους της l2 κυρίως cache βοηθάει σημαντικά στη αύξηση των hit rates, και στην μείωση δηλαδή των miss. Ωστόσο μεγαλύτερη cache οδηγεί σε περισσότερο "ψάξιμο", και άρα μεγαλύτερους χρόνους.
+
+* Επιπλέον παρατηρήσαμε ότι μείωση της cacheline οδηγεί σε σημαντικές καθυστερήσεις.
+
+* Κάτι ακόμα που παρατηρούμε αλλά αναφέρεται και στην βιβλιογραφία που επισυνάψαμε, είναι ότι αύξηση του associativity οδηγεί σε μικρότερα miss rates αλλά επιβαρύνει επίσης την ταχύτητα.
+
+* Άρα μεγαλύτερο associativity, δηλαδή block sizes, και μεγαλύτερη μνήμη μπορούν να μειώσουν σημαντικά τα miss rates, αλλά να οδηγήσουν σε σημαντικές καθυστερήσεις.  
+
+Με βάση λοιπόν όσα παρατηρήσαμε θα δοκιμάσουμε κάποιες τροποποιήσεις για το specmcf, το οποίο αποτελεί ένα σχετικά καλό benchmark με μικρα miss rates στην L2 και L1 data , αλλά μεγάλο στην L1 instruction, και καλό χρόνο εκτέλεσης και CPI.
+
+**1 ->  default**
+**2 -> --l1d_size=32kB --l1i_size=64kB --l2_size=512kB --l1i_assoc=4 --l1d_assoc=4 --l2_assoc=8**
+**3 -> --l1d_size=128kB --l1i_size=128kB --l2_size=2MB --l1i_assoc=8 --l1d_assoc=8 --l2_assoc=16**
+**4 -> --l1d_size=32kB --l1i_size=32kB --l2_size=512kB --l1i_assoc=2 --l1d_assoc=2 --l2_assoc=4**
+**Τα 5,6,7 είναι τα ίδια με τα 2,3,4 αντίστοιχα με τη μόνη διαφορά το --cpu-clock=1GHz**
+ 
+ Παρακάτω πρκύπτουν τα εξής γραφήματα :
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Mcf_parameters/sim_seconds.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/mcf_parameters/sim_seconds.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Mcf_parameters/cpi.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/mcf_parameters/cpi.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Mcf_parameters/dcache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/mcf_parameters/dcache.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Mcf_parameters/icache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/mcf_parameters/icache.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Mcf_parameters/l2cache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/mcf_parameters/l2cache.jpg)
+
+Παρατηρούμε λοιπόν ότι αυξάνοντας στην περίπτωση **2** τα associativities στην L1 σε 4 , πετυχαίνουμε  καλύτερο χρόνο αυξάνοντας λίγο το cpi. Επιπλέον αυξάνοντας στην περίπτωση **3** τα sizes των L1 και L2 και αναλογικά και τα associativities παρατηρούμε επίσης καλό χρόνο , μικρότερο dcache miss rate.
+Στην περίπτωση **4** , μειώνοντας τα instruction sizes παρατηρούμε κάποια βελτιώση στον χρόνο , ωστόσο αύξηση στο cpi και στα icache misses και μια αναμενόμενη μείωση στo L2 miss rate, αφού ότι δε βρίσκεται στην L1 θα βρεθεί λογικά στην L2. Με αλλαγή στην συχνότητα της CPU σε **1GHz** παρατηρούμε διπλάσιους χρόνους όπως και αναμενόταν.
+
+Από όλες τις περιπτώσεις η καλύτερη είναι η **3** και άρα συμπαιρένουμε ότι μια αναλογική-γραμμική αύξηση των associativities και των μεγεθών των caches, πετυχαίνουμε καλύτερους χρόνους.
+
+
+
+
+
 
 
 
