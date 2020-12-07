@@ -185,7 +185,27 @@ _Στο συγκεκριμένο benchmark οι συνδυασμοί επιλέ�
 
 [![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/Sjeng_parameters/l2cache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/sjeng_parameters/l2cache.jpg)
 
+Για το benchmark **spechmmer** γίνονται οι εξής τροποποιήσεις : 
+* **1 -> default**
+* **2 -> --l1d_size=128kB --l1i_size=128kB --l2_size=512kB --l1i_assoc=1 --l1d_assoc=1 --l2_assoc=2**
+* **3 -> --l1d_size=128kB --l1i_size=128kB --l2_size=512kB --l1i_assoc=32 --l1d_assoc=32 --l2_assoc=64**
+* **4 ->--l1d_size=32kB --l1i_size=64kB --l2_size=512kB --l1i_assoc=1 --l1d_assoc=1 --l2_assoc=2**
+* **5 -> --l1d_size=32kB --l1i_size=64kB --l2_size=512kB --l1i_assoc=32 --l1d_assoc=32 --l2_assoc=64**
+* **6 -> --l1d_size=128kB --l1i_size=128kB --l2_size=4MB --l1i_assoc=8 --l1d_assoc=8 --l2_assoc=16**
 
+Παρακάτω προκύπτουν τα εξής γραφήματα :
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/hmmer_parameters/sim_seconds.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/hmmer_parameters/sim_seconds.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/hmmer_parameters/cpi.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/hmmer_parameters/cpi.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/hmmer_parameters/dcache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/hmmer_parameters/dcache.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/hmmer_parameters/icache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/hmmer_parameters/icache.jpg)
+
+[![N|Solid](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/hmmer_parameters/l2cache.jpg)](https://raw.githubusercontent.com/cmousikos/comp_arch_lab2/main/hmmer_parameters/l2cache.jpg)
+
+Παρατηρούμε ότι αυξάνοντας τα sizes των caches, και όχι τα associativities, στο συγκεκριμένο benchmark δε παρατηρούμε κάποια βελτίωση, ενώ αυξάνοντας και τα δύο υπάρχει μια ελάχιστη βελτίωση. Στην περίπτωση 4 όπου τα associativities είναι τα μικρότερα δυνατά, υπάρχει επιβράνδυση, μεγάλα dcache και icache miss rates, και μικρότερο l2 miss rate , το οποίο είναι λογικό αφού ότι δε βρίσει στις L1 το βρίσκει κατα πάσα πιθανότητα στις L2. 
 
 ## Bήμα 3ο
 
